@@ -1,0 +1,18 @@
+## Artifacts from building and testing
+bin/
+obj/
+*.user
+*.suo
+*.usercache
+
+## IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+## OS
+.DS_Store
+Thumbs.db
+

@@ -1,0 +1,32 @@
+@host = http://localhost:5000
+
+### 1. Получить список всех задач
+GET {{host}}/api/tasks
+
+### 2. Получить задачу по Id
+GET {{host}}/api/tasks/1
+
+### 3. Создать новую задачу
+POST {{host}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Изучить ASP.NET Core",
+  "description": "Minimal API"
+}
+
+### 4. Обновить задачу
+PUT {{host}}/api/tasks/1
+Content-Type: application/json
+
+{
+  "title": "Изучить ASP.NET Core",
+  "description": "Minimal API и Swagger",
+  "isCompleted": true
+}
+
+### 5. Удалить задачу
+DELETE {{host}}/api/tasks/1
+
+### Доп. задание: только выполненные задачи
+GET {{host}}/api/tasks/completed
