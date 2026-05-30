@@ -3,19 +3,12 @@ using TaskManagerApi.Models;
 
 namespace TaskManagerApi.Services;
 
-/// <summary>
-/// Хранилище задач. Инкапсулирует всю работу с JSON-файлом.
-///
-/// Архитектурное правило из задания: endpoint — это обработчик HTTP-запроса,
-/// он НЕ является местом хранения данных. Поэтому всё чтение/запись JSON
-/// вынесено сюда, а endpoints только вызывают методы этого класса.
-/// </summary>
+
 public class TaskRepository
 {
     private readonly string _filePath;
 
-    // Один общий объект для блокировки — защищает файл от одновременной записи
-    // из нескольких запросов.
+
     private readonly object _lock = new();
 
     private static readonly JsonSerializerOptions JsonOptions = new()
@@ -39,8 +32,6 @@ public class TaskRepository
         }
     }
 
-    // ----- Чтение / запись файла -----
-
     private List<TaskModel> ReadAll()
     {
         var json = File.ReadAllText(_filePath);
@@ -58,7 +49,6 @@ public class TaskRepository
         File.WriteAllText(_filePath, json);
     }
 
-    // ----- CRUD -----
 
     public List<TaskModel> GetAll()
     {
@@ -90,7 +80,7 @@ public class TaskRepository
         {
             var tasks = ReadAll();
 
-            // Автогенерация Id: максимальный существующий + 1 (или 1, если пусто).
+            //максимальный существующий + 1 (или 1, если пусто).
             var newId = tasks.Count == 0 ? 1 : tasks.Max(t => t.Id) + 1;
 
             var task = new TaskModel

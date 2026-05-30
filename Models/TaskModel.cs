@@ -1,8 +1,5 @@
 namespace TaskManagerApi.Models;
 
-/// <summary>
-/// Модель данных задачи. Соответствует структуре записи в Data/tasks.json.
-/// </summary>
 public class TaskModel
 {
     public int Id { get; set; }

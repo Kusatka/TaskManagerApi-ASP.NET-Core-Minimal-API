@@ -3,33 +3,20 @@ using TaskManagerApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- Сервисы ---
-
-// Swagger / OpenAPI для тестирования API
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Хранилище задач (работа с JSON-файлом). Singleton — один экземпляр на всё приложение.
+
 builder.Services.AddSingleton(new TaskRepository(builder.Environment.ContentRootPath));
 
 var app = builder.Build();
 
-// --- Middleware ---
 
-// Swagger UI доступен по адресу /swagger
 app.UseSwagger();
 app.UseSwaggerUI();
-
-// Перенаправление с корня на Swagger UI для удобства
 app.MapGet("/", () => Results.Redirect("/swagger"));
 
-// =====================================================================
-//  Endpoints (CRUD)
-//  Endpoint — только обработчик HTTP-запроса. Вся работа с данными
-//  делегируется в TaskRepository.
-// =====================================================================
 
-// 1. Получить список всех задач
 app.MapGet("/api/tasks", (TaskRepository repo) =>
 {
     return Results.Ok(repo.GetAll());
@@ -37,9 +24,7 @@ app.MapGet("/api/tasks", (TaskRepository repo) =>
 .WithName("GetAllTasks")
 .WithTags("Tasks");
 
-// Доп. задание: получить только выполненные задачи.
-// ВАЖНО: маршрут должен быть объявлен ДО "/api/tasks/{id}",
-// иначе "completed" будет воспринят как {id}.
+
 app.MapGet("/api/tasks/completed", (TaskRepository repo) =>
 {
     return Results.Ok(repo.GetCompleted());
